@@ -1,0 +1,54 @@
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+using namespace std;
+
+double areaTriangulo(double A, double C) {
+    return (A * C) / 2.0;
+}
+
+double areaCirculo(double C) {
+    const double PI = 3.14159;
+    return PI * C * C;
+}
+
+double areaTrapezio(double A, double B, double C) {
+    return ((A + B) * C) / 2.0;
+}
+
+double areaQuadrado(double B) {
+    return B * B;
+}
+
+double areaRetangulo(double A, double B) {
+    return A * B;
+}
+
+int main() {
+    ifstream arquivoEntrada("medidas.txt");
+    ofstream arquivoSaida("relatorio.txt");
+
+    if (!arquivoEntrada) {
+        cerr << "Erro ao abrir o arquivo medidas.txt!" << endl;
+        return 1;
+    }
+
+    double A, B, C;
+    arquivoSaida << fixed << setprecision(2);
+
+    while (arquivoEntrada >> A >> B >> C) {
+        arquivoSaida << "Triangulo: " << areaTriangulo(A, C) << endl;
+        arquivoSaida << "Circulo: " << areaCirculo(C) << endl;
+        arquivoSaida << "Trapezio: " << areaTrapezio(A, B, C) << endl;
+        arquivoSaida << "Quadrado: " << areaQuadrado(B) << endl;
+        arquivoSaida << "Retangulo: " << areaRetangulo(A, B) << endl;
+        arquivoSaida << "---------------------------" << endl;
+    }
+
+    arquivoEntrada.close();
+    arquivoSaida.close();
+
+    cout << "Relatorio gerado com sucesso em relatorio.txt!" << endl;
+
+    return 0;
+}
