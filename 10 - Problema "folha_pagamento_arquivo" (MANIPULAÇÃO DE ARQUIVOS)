@@ -1,0 +1,66 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <iomanip>
+using namespace std;
+
+struct Funcionario {
+    string nome;
+    double salario;
+};
+
+int main() {
+    int N;
+    cout << "Quantos funcionarios deseja cadastrar? ";
+    cin >> N;
+    cin.ignore();
+
+    Funcionario funcionarios[100];
+
+    for (int i = 0; i < N; i++) {
+        cout << "Funcionario " << i + 1 << ":\n";
+        cout << "Nome: ";
+        getline(cin, funcionarios[i].nome);
+        cout << "Salario: ";
+        cin >> funcionarios[i].salario;
+        cin.ignore();
+    }
+
+    // Gravando no arquivo folha.txt
+    ofstream arquivoSaida("folha.txt");
+    if (!arquivoSaida) {
+        cout << "Erro ao abrir o arquivo para escrita!" << endl;
+        return 1;
+    }
+
+    for (int i = 0; i < N; i++) {
+        arquivoSaida << funcionarios[i].nome << endl;
+        arquivoSaida << funcionarios[i].salario << endl;
+    }
+    arquivoSaida.close();
+
+    cout << "\nDados gravados no arquivo com sucesso!\n";
+
+    ifstream arquivoEntrada("folha.txt");
+    if (!arquivoEntrada) {
+        cout << "Erro ao abrir o arquivo para leitura!" << endl;
+        return 1;
+    }
+
+    string nome;
+    double salario;
+    double total = 0.0;
+
+    while (getline(arquivoEntrada, nome)) {
+        arquivoEntrada >> salario;
+        arquivoEntrada.ignore(); 
+        total += salario;
+    }
+
+    arquivoEntrada.close();
+
+    cout << fixed << setprecision(2);
+    cout << "\nPagamento total da folha: R$ " << total << endl;
+
+    return 0;
+}
